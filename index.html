@@ -103,6 +103,12 @@ h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; text
 .ctl select { font: inherit; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
 .ctl .check { display: flex; align-items: center; gap: 8px; font-weight: 400; justify-content: flex-start; }
 .ctl small { color: var(--muted); font-size: 12px; }
+.offset-row { display: flex; align-items: center; gap: 8px; }
+.offset-row input { flex: 1; min-width: 0; }
+.btn.step { padding: 4px 0; width: 44px; flex: none; font: 500 13px/1.4 var(--font-mono); }
+.offset-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
+.btn.reset { padding: 3px 10px; font-size: 12px; }
+.btn:disabled { opacity: 0.4; cursor: default; border-color: var(--line); }
 
 button:focus-visible, input:focus-visible, select:focus-visible, canvas:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
@@ -176,8 +182,15 @@ button:focus-visible, input:focus-visible, select:focus-visible, canvas:focus-vi
     </div>
     <div class="ctl">
       <label for="offset">싱크 오프셋 <output id="offsetOut">0 ms</output></label>
-      <input type="range" id="offset" min="-500" max="500" step="10" value="0">
-      <small>+ 값이면 멜로디가 원곡보다 늦게 나옵니다. 트랙별로 따로 기억합니다.</small>
+      <div class="offset-row">
+        <button class="btn step" id="offDown" aria-label="오프셋 10ms 줄이기">−10</button>
+        <input type="range" id="offset" min="-500" max="500" step="10" value="0">
+        <button class="btn step" id="offUp" aria-label="오프셋 10ms 늘리기">+10</button>
+      </div>
+      <div class="offset-foot">
+        <small>+ 값이면 멜로디가 원곡보다 늦게 나옵니다. 트랙별로 따로 기억합니다.</small>
+        <button class="btn reset" id="offReset">기본값으로</button>
+      </div>
     </div>
   </section>
 </div>
@@ -530,11 +543,26 @@ button:focus-visible, input:focus-visible, select:focus-visible, canvas:focus-vi
   volOrig.addEventListener("input", applyOrig); volMel.addEventListener("input", applyMel);
   applyOrig(); applyMel();
 
-  function showOffset() { const v = +$("offset").value; $("offsetOut").textContent = (v > 0 ? "+" : "") + v + " ms"; }
-  $("offset").addEventListener("input", () => {
-    offsets[cur.id] = +$("offset").value; save("offsets", offsets); showOffset();
+  const fmtMs = v => (v > 0 ? "+" : "") + v + " ms";
+  function showOffset() {
+    const v = +$("offset").value, def = cur.offset ?? 0;
+    $("offsetOut").textContent = fmtMs(v);
+    $("offDown").disabled = v <= +$("offset").min;
+    $("offUp").disabled = v >= +$("offset").max;
+    $("offReset").textContent = `기본값(${fmtMs(def)})으로`;
+    $("offReset").disabled = !(cur.id in offsets) && v === def;
+  }
+  function setOffset(v) {
+    if (v === null) delete offsets[cur.id];
+    else offsets[cur.id] = Math.max(+$("offset").min, Math.min(+$("offset").max, v));
+    save("offsets", offsets);
+    $("offset").value = offsetMs(cur); showOffset();
     if (playing) resync(); draw();
-  });
+  }
+  $("offset").addEventListener("input", () => setOffset(+$("offset").value));
+  $("offDown").addEventListener("click", () => setOffset(offsetMs(cur) - 10));
+  $("offUp").addEventListener("click", () => setOffset(offsetMs(cur) + 10));
+  $("offReset").addEventListener("click", () => setOffset(null));
   $("harmonyOn").addEventListener("change", () => { if (playing) resync(); draw(); });
   $("wave").addEventListener("change", () => { if (playing) resync(); });
   $("octUp").addEventListener("change", () => { if (playing) resync(); });

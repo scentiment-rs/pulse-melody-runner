@@ -4,7 +4,7 @@
 
 - 페이지: https://scentiment-rs.github.io/pulse-melody-runner/
 - `index.html`: 플레이어 (피아노롤, 싱크 오프셋, 볼륨·음색 조절)
-- `notes.js`: 트랙별 노트 데이터 (`withNotes`는 트랙 02)
+- `notes.js`: 트랙별 노트 데이터 (FINEST THING · WITH · 백화요란 · MEME · DRAGON = track01–05, `withNotes`는 WITH)
 - `audio/`: 원곡 track01–05.mp3
 
 로컬에서 볼 때:

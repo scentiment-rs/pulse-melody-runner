@@ -930,9 +930,9 @@
         ];
 
 window.TRACKS = [
-  { id: "track01", label: "트랙 01", src: "audio/track01.mp3", melody: track01Notes },
-  { id: "track02", label: "트랙 02", src: "audio/track02.mp3", melody: withNotes, alias: "with" },
-  { id: "track03", label: "트랙 03", src: "audio/track03.mp3", melody: track03Notes },
-  { id: "track04", label: "트랙 04", src: "audio/track04.mp3", melody: track04Notes, harmony: track04HarmonyNotes },
-  { id: "track05", label: "트랙 05", src: "audio/track05.mp3", melody: track05Notes }
+  { id: "track01", label: "FINEST THING", src: "audio/track01.mp3", melody: track01Notes },
+  { id: "track02", label: "WITH", src: "audio/track02.mp3", melody: withNotes },
+  { id: "track03", label: "백화요란", src: "audio/track03.mp3", melody: track03Notes },
+  { id: "track04", label: "MEME", src: "audio/track04.mp3", melody: track04Notes, harmony: track04HarmonyNotes },
+  { id: "track05", label: "DRAGON", src: "audio/track05.mp3", melody: track05Notes }
 ];

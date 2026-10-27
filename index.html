@@ -62,7 +62,6 @@ h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; text
 .track-btn[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
 .track-btn .name { font-weight: 600; display: flex; gap: 6px; align-items: center; }
 .track-btn .meta { color: var(--muted); font: 12px/1.4 var(--font-mono); font-variant-numeric: tabular-nums; }
-.tag { font: 500 11px/1 var(--font-mono); padding: 3px 5px; border-radius: 4px; background: var(--accent); color: var(--surface); }
 
 .stage { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
 .now { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
@@ -217,8 +216,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, canvas:focus-vi
     const b = document.createElement("button");
     b.className = "track-btn"; b.dataset.id = t.id;
     const total = t.melody.length + t.harmony.length;
-    b.innerHTML = `<span class="name">${t.label}${t.alias ? `<span class="tag">${t.alias}</span>` : ""}</span>
-      <span class="meta">${total}노트 · ${noteName(t.lo + 2)}–${noteName(t.hi - 2)}</span>`;
+    b.innerHTML = `<span class="name">${t.label}</span>
+      <span class="meta">${t.id.slice(-2)} · ${total}노트 · ${noteName(t.lo + 2)}–${noteName(t.hi - 2)}</span>`;
     b.addEventListener("click", () => selectTrack(t.id));
     nav.appendChild(b);
   });

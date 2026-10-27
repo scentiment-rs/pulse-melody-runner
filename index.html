@@ -207,7 +207,9 @@ button:focus-visible, input:focus-visible, select:focus-visible, canvas:focus-vi
   function load(k, d) { try { return JSON.parse(localStorage.getItem("mts:" + k)) ?? d; } catch { return d; } }
   function save(k, v) { try { localStorage.setItem("mts:" + k, JSON.stringify(v)); } catch {} }
 
-  const offsetSec = () => (offsets[cur.id] || 0) / 1000;
+  // 사용자가 슬라이더로 바꾼 값이 있으면 그 값, 없으면 notes.js의 트랙 기본값(ms)
+  const offsetMs = t => offsets[t.id] ?? t.offset ?? 0;
+  const offsetSec = () => offsetMs(cur) / 1000;
   const harmonyOn = () => cur.harmony.length > 0 && $("harmonyOn").checked;
 
   // ---- 트랙 버튼 ----
@@ -230,7 +232,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, canvas:focus-vi
     audio.src = cur.src;
     audio.currentTime = 0;
     $("harmonyRow").hidden = $("legendHarmony").hidden = cur.harmony.length === 0;
-    $("offset").value = offsets[id] || 0; showOffset();
+    $("offset").value = offsetMs(cur); showOffset();
     $("dur").textContent = fmt(cur.duration);
     save("track", id);
     draw();

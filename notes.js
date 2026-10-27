@@ -930,7 +930,7 @@
         ];
 
 window.TRACKS = [
-  { id: "track01", label: "FINEST THING", src: "audio/track01.mp3", melody: track01Notes, offset: 70 },
+  { id: "track01", label: "FINEST THING", src: "audio/track01.mp3", melody: track01Notes, offset: 100 },
   { id: "track02", label: "WITH", src: "audio/track02.mp3", melody: withNotes },
   { id: "track03", label: "백화요란", src: "audio/track03.mp3", melody: track03Notes },
   { id: "track04", label: "MEME", src: "audio/track04.mp3", melody: track04Notes, harmony: track04HarmonyNotes },
